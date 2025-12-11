@@ -13,6 +13,16 @@ func JSONResponse(w http.ResponseWriter, code int, v interface{}) {
 	_ = json.NewEncoder(w).Encode(v)
 }
 
+// CreateUserHandler godoc
+// @Summary Create a new user
+// @Description Creates a new user with ID, name, email
+// @Tags User
+// @Accept json
+// @Produce json
+// @Param user body object true "User Payload"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]string
+// @Router /users/create [post]
 func CreateUserHandler(service *appUser.UserService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req struct {
@@ -33,6 +43,16 @@ func CreateUserHandler(service *appUser.UserService) http.HandlerFunc {
 	}
 }
 
+// GetUserHandler godoc
+// @Summary Get user by ID
+// @Description Fetch a user by query parameter id
+// @Tags User
+// @Produce json
+// @Param id query string true "User ID"
+// @Success 200 {object} map[string]interface{}
+// @Failure 400 {object} map[string]string
+// @Failure 404 {object} map[string]string
+// @Router /users/get [get]
 func GetUserHandler(service *appUser.UserService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
