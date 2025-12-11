@@ -1,4 +1,5 @@
 #Target
+
 1. Create api generate
 2. Reading API generate
 3. Delete API generate
@@ -9,9 +10,11 @@
 8. Swagger
 9. Graphana
 10. Docker
+11. Postgresql
 
 
 # Knowledge
+
 1. DDA full code concept
 2. RabbitMQ Full Knowledge
 3. Radis Full Knowledge
