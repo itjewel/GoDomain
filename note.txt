@@ -1,0 +1,26 @@
+#Target
+1. Create api generate
+2. Reading API generate
+3. Delete API generate
+4. Update API generate
+5. DB Connection
+6. RabbitMQ 
+7. Redis
+8. Swagger
+9. Graphana
+10. Docker
+
+
+# Knowledge
+1. DDA full code concept
+2. RabbitMQ Full Knowledge
+3. Radis Full Knowledge
+4. Swagger Full Knowledge
+5. Graphana testing
+6. Go routine
+7. WaitGroup
+8. Docker
+
+
+
+

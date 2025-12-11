@@ -16,7 +16,7 @@ func main() {
 	mux := http.NewServeMux()
 	httpRoutes.RegisterRoutes(mux, userService)
 
-	addr := ":8080"
+	addr := ":7000"
 	log.Printf("Server running on %s", addr)
 	log.Fatal(http.ListenAndServe(addr, mux))
 }
