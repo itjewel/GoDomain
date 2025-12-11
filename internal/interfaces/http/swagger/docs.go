@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/users/create": {
+        "/users": {
             "post": {
                 "description": "Creates a new user with ID, name, email",
                 "consumes": [
@@ -66,7 +66,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Get Users"
                 ],
                 "summary": "Get user by ID",
                 "parameters": [

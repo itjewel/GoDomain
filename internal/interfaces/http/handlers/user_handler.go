@@ -22,7 +22,7 @@ func JSONResponse(w http.ResponseWriter, code int, v interface{}) {
 // @Param user body object true "User Payload"
 // @Success 200 {object} map[string]interface{}
 // @Failure 400 {object} map[string]string
-// @Router /users/create [post]
+// @Router /users [post]
 func CreateUserHandler(service *appUser.UserService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req struct {
@@ -46,7 +46,7 @@ func CreateUserHandler(service *appUser.UserService) http.HandlerFunc {
 // GetUserHandler godoc
 // @Summary Get user by ID
 // @Description Fetch a user by query parameter id
-// @Tags User
+// @Tags Get Users
 // @Produce json
 // @Param id query string true "User ID"
 // @Success 200 {object} map[string]interface{}

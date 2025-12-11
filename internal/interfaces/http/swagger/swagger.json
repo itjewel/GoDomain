@@ -4,7 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/users/create": {
+        "/users": {
             "post": {
                 "description": "Creates a new user with ID, name, email",
                 "consumes": [
@@ -55,7 +55,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Get Users"
                 ],
                 "summary": "Get user by ID",
                 "parameters": [
