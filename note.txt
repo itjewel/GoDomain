@@ -7,7 +7,7 @@
 5. DB Connection
 6. RabbitMQ 
 7. Redis
-8. Swagger
+8. Swagger  -> Okay
 9. Graphana
 10. Docker
 11. Postgresql

@@ -1,6 +1,7 @@
 package persistence
 
 import (
+	"database/sql"
 	"errors"
 	"sync"
 
@@ -12,7 +13,7 @@ type UserRepoInMemory struct {
 	store map[string]*user.User
 }
 
-func NewUserRepoInMemory() user.UserRepository {
+func NewUserRepoInMemory(db *sql.DB) user.UserRepository {
 	return &UserRepoInMemory{
 		store: make(map[string]*user.User),
 	}

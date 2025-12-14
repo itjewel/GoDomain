@@ -1,4 +1,4 @@
-# Project Run: go run ./cmd/server/mail.com
+# Project Run: go run ./cmd/server/main.go
 
 # Project url: http://localhost:7000/
 

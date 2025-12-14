@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	appUser "github.com/jewelmia/GoDomain/internal/application/user"
+	"github.com/jewelmia/GoDomain/internal/infrastructure/db"
 	repo "github.com/jewelmia/GoDomain/internal/infrastructure/persistence"
 	httpRoutes "github.com/jewelmia/GoDomain/internal/interfaces/http"
 
@@ -13,8 +14,20 @@ import (
 )
 
 func main() {
-	userRepo := repo.NewUserRepoInMemory()
+	dns := "postgres://admin:admin123@localhost:5432/app?sslmode=disable"
+	dbConn := db.NewPostgres(dns)
+	// DB connection
+	// postgresDB, err := db.NewPostgres(dns)
+	
+	// Repository
+	userRepo := repo.NewUserRepoInMemory(dbConn)
+	// invoiceRepo := repo.InvoiceRepoPostgres(dbConn)
+	// paymentRepo := repo.PaymentRepoPostgres(dbConn)
+
+	// service
 	userService := appUser.NewUserService(userRepo)
+	// userInvoice := appUser.(userRepo)
+	// userPayment := appUser.NewUserService(userRepo)
 
 	mux := http.NewServeMux()
 	httpRoutes.RegisterRoutes(mux, userService)
