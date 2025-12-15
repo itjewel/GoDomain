@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	dns := "postgres://postgres:password@localhost:5432/apisix_logs_db?sslmode=disable"
+	dns := "postgres://godomain:password@localhost:5432/go_domain?sslmode=disable"
 	dbConn := db.NewPostgres(dns)
 	// DB connection
 	// postgresDB, err := db.NewPostgres(dns)
