@@ -8,9 +8,31 @@
 6. RabbitMQ 
 7. Redis
 8. Swagger  -> Okay
-9. Graphana
+9. Grafana
 10. Docker
 11. Postgresql
+12. Struct
+13. Interface
+15. DDA
+16. GRPC
+
+
+
+
+# Core Knowledge
+1. DDA (Domain Driven Architectural)
+2. Golang  -> Okay
+3. RabbitMQ
+4. Grafana
+5. Redis
+6. Postgresql  -> Okay
+7. GRPC 
+8. Microservice
+9. Swagger  -> Okay
+10. Docker   -> Okay
+
+
+
 
 
 # Knowledge
@@ -19,11 +41,11 @@
 2. RabbitMQ Full Knowledge
 3. Radis Full Knowledge
 4. Swagger Full Knowledge
-5. Graphana testing
+5. Grafana testing
 6. Go routine
 7. WaitGroup
 8. Docker
-
+9. GRPC 
 
 
 

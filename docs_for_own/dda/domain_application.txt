@@ -1,0 +1,21 @@
+“Orchestrate” বলতে এখানে বোঝায় বিভিন্ন কাজ বা লজিককে সঠিক ক্রমে, সঠিক সময়ে এবং সঠিকভাবে একসাথে চলা। সহজভাবে বললে, Domain logic গুলোকে সঠিকভাবে organize এবং coordinate করা।
+
+উদাহরণ দিয়ে বুঝি:
+Scenario: Customer একটি Order place করছে
+
+
+Domain Layer:
+1. Validate order (business rule)
+2. Calculate total price
+3. Check inventory
+
+Application Layer (orchestrate):
+1. Receive HTTP request → create Order object
+2. Call domain methods: Validate, TotalPrice, CheckInventory
+3. Save order in database
+4. Send confirmation email
+
+এখানে App Layer “orchestrate” করছে কারণ এটি বিভিন্ন কাজের sequence ঠিক করে, কবে কোন domain logic call হবে, এবং পরে database বা notification call হবে তা coordinate করছে।
+
+💡 সংক্ষেপে:
+Domain = rules, App = conductor of the workflow

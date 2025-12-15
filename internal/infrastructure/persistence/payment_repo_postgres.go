@@ -4,37 +4,64 @@ import (
 	"database/sql"
 	"errors"
 
-	"github.com/jewelmia/GoDomain/internal/domain/invoice"
+	"github.com/jewelmia/GoDomain/internal/domain/payment"
 )
 
+// Postgres implementation of PaymentRepository
 type PaymentRepoPostgres struct {
 	db *sql.DB
 }
 
-func NewPaymentRepoPostgres(db *sql.DB) invoice.InvoiceRepository {
-	return &InvoiceRepoPostgres{db: db}
+// Constructor
+func NewPaymentRepoPostgres(db *sql.DB) payment.PaymentRepository {
+	return &PaymentRepoPostgres{db: db}
 }
 
-func (r *InvoiceRepoPostgres) Save(inv *invoice.Invoice) error {
+// Save payment
+func (r *PaymentRepoPostgres) Save(p *payment.Payment) error {
 	query := `
-	INSERT INTO invoices (id, user_id, amount, status)
-	VALUES ($1, $2, $3, $4)
+	INSERT INTO payments (id, invoice_id, user_id, amount, status, method)
+	VALUES ($1, $2, $3, $4, $5, $6)
 	ON CONFLICT (id) DO UPDATE
-	SET user_id=EXCLUDED.user_id, amount=EXCLUDED.amount, status=EXCLUDED.status;
+	SET invoice_id = EXCLUDED.invoice_id,
+	    user_id = EXCLUDED.user_id,
+	    amount = EXCLUDED.amount,
+	    status = EXCLUDED.status,
+	    method = EXCLUDED.method;
 	`
-	_, err := r.db.Exec(query, inv.ID, inv.UserID, inv.Amount, inv.Status)
+	_, err := r.db.Exec(query, p.ID, p.InvoiceID, p.UserID, p.Amount, p.Status, p.Method)
 	return err
 }
 
-func (r *InvoiceRepoPostgres) GetByID(id string) (*invoice.Invoice, error) {
-	inv := &invoice.Invoice{}
-	row := r.db.QueryRow(`SELECT id, user_id, amount, status FROM invoices WHERE id=$1`, id)
-	err := row.Scan(&inv.ID, &inv.UserID, &inv.Amount, &inv.Status)
+// Get payment by ID
+func (r *PaymentRepoPostgres) GetByID(id string) (*payment.Payment, error) {
+	p := &payment.Payment{}
+	row := r.db.QueryRow(`SELECT id, invoice_id, user_id, amount, status, method FROM payments WHERE id=$1`, id)
+	err := row.Scan(&p.ID, &p.InvoiceID, &p.UserID, &p.Amount, &p.Status, &p.Method)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, errors.New("invoice not found")
+			return nil, errors.New("payment not found")
 		}
 		return nil, err
 	}
-	return inv, nil
+	return p, nil
+}
+
+// Get payments by InvoiceID
+func (r *PaymentRepoPostgres) GetByInvoiceID(invoiceID string) ([]*payment.Payment, error) {
+	rows, err := r.db.Query(`SELECT id, invoice_id, user_id, amount, status, method FROM payments WHERE invoice_id=$1`, invoiceID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var payments []*payment.Payment
+	for rows.Next() {
+		p := &payment.Payment{}
+		if err := rows.Scan(&p.ID, &p.InvoiceID, &p.UserID, &p.Amount, &p.Status, &p.Method); err != nil {
+			return nil, err
+		}
+		payments = append(payments, p)
+	}
+	return payments, nil
 }
