@@ -1,21 +1,25 @@
 package invoice
 
-import "errors"
+import (
+	"errors"
+
+	domain "github.com/jewelmia/GoDomain/internal/domain/invoice"
+)
 
 type InvoiceService struct {
-	repo InvoiceRepository
+	repo domain.InvoiceRepository
 }
 
-func NewInvoiceService(repo InvoiceRepository) *InvoiceService {
+func NewInvoiceService(repo domain.InvoiceRepository) *InvoiceService {
 	return &InvoiceService{repo: repo}
 }
 
 // Use case: Create new invoice with some validation
-func (s *InvoiceService) CreateInvoice(id, userID string, amount float64) (*Invoice, error) {
+func (s *InvoiceService) CreateInvoice(id, userID string, amount float64) (*domain.Invoice, error) {
 	if amount <= 0 {
 		return nil, errors.New("amount must be greater than 0")
 	}
-	inv := NewInvoice(id, userID, amount, "pending")
+	inv := domain.NewInvoice(id, userID, amount)
 	err := s.repo.Save(inv)
 	if err != nil {
 		return nil, err

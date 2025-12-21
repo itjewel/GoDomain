@@ -1,21 +1,26 @@
 package payment
 
-import "errors"
+import (
+	"errors"
+
+	domain "github.com/jewelmia/GoDomain/internal/domain/payment"
+)
+
 
 type PaymentService struct {
-	repo PaymentRepository
+	repo domain.PaymentRepository
 }
 
-func NewPaymentService(repo PaymentRepository) *PaymentService {
+func NewPaymentService(repo domain.PaymentRepository) *PaymentService {
 	return &PaymentService{repo: repo}
 }
 
 // Create new payment
-func (s *PaymentService) CreatePayment(id, invoiceID, userID string, amount float64, method string) (*Payment, error) {
+func (s *PaymentService) CreatePayment(id, invoiceID, userID string, amount float64, method string) (*domain.Payment, error) {
 	if amount <= 0 {
 		return nil, errors.New("amount must be greater than 0")
 	}
-	p := NewPayment(id, invoiceID, userID, amount, method)
+	p := domain.NewPayment(id, invoiceID, userID, amount, method)
 	err := s.repo.Save(p)
 	if err != nil {
 		return nil, err
@@ -34,6 +39,6 @@ func (s *PaymentService) CompletePayment(id string) error {
 }
 
 // Get payments for an invoice
-func (s *PaymentService) PaymentsByInvoice(invoiceID string) ([]*Payment, error) {
+func (s *PaymentService) PaymentsByInvoice(invoiceID string) ([]*domain.Payment, error) {
 	return s.repo.GetByInvoiceID(invoiceID)
 }
