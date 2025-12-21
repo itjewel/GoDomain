@@ -5,13 +5,8 @@ import (
 	"net/http"
 
 	appUser "github.com/jewelmia/GoDomain/internal/application/user"
+	response "github.com/jewelmia/GoDomain/internal/interfaces/http/response"
 )
-
-func JSONResponse(w http.ResponseWriter, code int, v interface{}) {
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(code)
-	_ = json.NewEncoder(w).Encode(v)
-}
 
 // CreateUserHandler godoc
 // @Summary Create a new user
@@ -31,15 +26,15 @@ func CreateUserHandler(service *appUser.UserService) http.HandlerFunc {
 			Email string `json:"email"`
 		}
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
+			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "invalid body"})
 			return
 		}
 		u, err := service.CreateUser(req.ID, req.Name, req.Email)
 		if err != nil {
-			JSONResponse(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
+			response.JSONResponse(w, http.StatusInternalServerError, map[string]string{"error": err.Error()})
 			return
 		}
-		JSONResponse(w, http.StatusOK, u)
+		response.JSONResponse(w, http.StatusOK, u)
 	}
 }
 
@@ -57,14 +52,14 @@ func GetUserHandler(service *appUser.UserService) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		if id == "" {
-			JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "id required"})
+			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "id required"})
 			return
 		}
 		u, err := service.GetUser(id)
 		if err != nil {
-			JSONResponse(w, http.StatusNotFound, map[string]string{"error": err.Error()})
+			response.JSONResponse(w, http.StatusNotFound, map[string]string{"error": err.Error()})
 			return
 		}
-		JSONResponse(w, http.StatusOK, u)
+		response.JSONResponse(w, http.StatusOK, u)
 	}
 }

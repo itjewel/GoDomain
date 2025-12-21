@@ -6,33 +6,35 @@ import (
 	domain "github.com/jewelmia/GoDomain/internal/domain/invoice"
 )
 
-type InvoiceService struct {
+type CreateInvoiceUseCase struct {
 	repo domain.InvoiceRepository
 }
 
-func NewInvoiceService(repo domain.InvoiceRepository) *InvoiceService {
-	return &InvoiceService{repo: repo}
+func NewCreateInvoiceUseCase(
+	repo domain.InvoiceRepository,
+) *CreateInvoiceUseCase {
+	return &CreateInvoiceUseCase{repo: repo}
 }
 
-// Use case: Create new invoice with some validation
-func (s *InvoiceService) CreateInvoice(id, userID string, amount float64) (*domain.Invoice, error) {
-	if amount <= 0 {
+type CreateInvoiceCommand struct {
+	ID     string
+	UserID string
+	Amount float64
+}
+
+func (uc *CreateInvoiceUseCase) Execute(
+	cmd CreateInvoiceCommand,
+) (*domain.Invoice, error) {
+
+	if cmd.Amount <= 0 {
 		return nil, errors.New("amount must be greater than 0")
 	}
-	inv := domain.NewInvoice(id, userID, amount)
-	err := s.repo.Save(inv)
-	if err != nil {
-		return nil, err
-	}
-	return inv, nil
+
+inv, err := domain.NewInvoice(cmd.ID, cmd.UserID, cmd.Amount)
+if err != nil {
+	return nil, err
 }
 
-// Use case: Mark invoice as paid
-func (s *InvoiceService) PayInvoice(id string) error {
-	inv, err := s.repo.GetByID(id)
-	if err != nil {
-		return err
-	}
-	inv.Status = "paid"
-	return s.repo.Save(inv)
+
+	return inv, nil
 }

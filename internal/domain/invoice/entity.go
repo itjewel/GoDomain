@@ -2,33 +2,53 @@ package invoice
 
 import "errors"
 
+/*
+Domain constants (no magic strings)
+*/
+type Status string
+
+const (
+	StatusPending Status = "pending"
+	StatusPaid    Status = "paid"
+)
+
 type Invoice struct {
-	ID     string  `json:"id"`
-	UserID string  `json:"user_id"`
-	Amount float64 `json:"amount"`
-	Status string  `json:"status"`
+	ID     string
+	UserID string
+	Amount float64
+	Status Status
 }
 
-// Constructor
-func NewInvoice(id, userID string, amount float64) *Invoice {
+// Constructor (factory)
+func NewInvoice(id, userID string, amount float64) (*Invoice, error) {
+	if id == "" {
+		return nil, errors.New("invoice id is required")
+	}
+	if userID == "" {
+		return nil, errors.New("user id is required")
+	}
+	if amount <= 0 {
+		return nil, errors.New("amount must be greater than zero")
+	}
+
 	return &Invoice{
 		ID:     id,
 		UserID: userID,
 		Amount: amount,
-		Status: "pending", // default status
-	}
+		Status: StatusPending,
+	}, nil
 }
 
-// Business rule: check if invoice is paid
+// Query method
 func (i *Invoice) IsPaid() bool {
-	return i.Status == "paid"
+	return i.Status == StatusPaid
 }
 
-// Business rule: mark invoice as paid
-func (i *Invoice) MarkPaid() error {
-	if i.Status == "paid" {
+// Command method (state transition)
+func (i *Invoice) MarkAsPaid() error {
+	if i.Status == StatusPaid {
 		return errors.New("invoice already paid")
 	}
-	i.Status = "paid"
+	i.Status = StatusPaid
 	return nil
 }

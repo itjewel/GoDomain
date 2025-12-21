@@ -1,21 +1,23 @@
 #Target
 
-1. Create api generate
+1. Create api generate (running)
 2. Reading API generate
 3. Delete API generate
 4. Update API generate
-5. DB Connection
+5. DB Connection                          -> Okay
 6. RabbitMQ 
 7. Redis
-8. Swagger  -> Okay
+8. Swagger                               -> Okay
 9. Grafana
 10. Docker
-11. Postgresql
+11. Postgresql                           -> Okay
 12. Struct
 13. Interface
-15. DDA
-16. GRPC
-17. PGAdmin 4  -> Okay
+14. DDA
+15. gRPC
+16. PGAdmin 4                            -> Okay
+17. Postgresql (Export & Import) 
+18. Struct wise validation 
 
 
 
@@ -27,7 +29,7 @@
 4. Grafana
 5. Redis
 6. Postgresql  -> Okay
-7. GRPC 
+7. gRPC 
 8. Microservice
 9. Swagger  -> Okay
 10. Docker   -> Okay
@@ -40,13 +42,13 @@
 
 1. DDA full code concept
 2. RabbitMQ Full Knowledge
-3. Radis Full Knowledge
+3. Redis Full Knowledge
 4. Swagger Full Knowledge
 5. Grafana testing
 6. Go routine
 7. WaitGroup
 8. Docker
-9. GRPC 
+9. gRPC 
 
 
 
