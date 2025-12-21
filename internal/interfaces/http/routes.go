@@ -12,12 +12,11 @@ func RegisterRoutes(
 	c *application.Container,
 ) {
 	// User routes
-	mux.HandleFunc("/users", handlers.CreateUserHandler(c.User.Service))
-	mux.HandleFunc("/users/get", handlers.GetUserHandler(c.User.Service))
+	mux.HandleFunc("POST /users", handlers.CreateUserHandler(c.User.Service)) // POST
+	mux.HandleFunc("GET /users/get", handlers.GetUserHandler(c.User.Service)) // GET
 
 	// Invoice routes
 	mux.HandleFunc(
-		"/invoice/create",
-		handlers.CreateInvoiceHandler(c.Invoice.Create),
-	)
+		"POST /invoice/create",
+		handlers.CreateInvoiceHandler(c.Invoice.Create)) // POST
 }

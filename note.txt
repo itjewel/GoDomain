@@ -13,11 +13,13 @@
 11. Postgresql                           -> Okay
 12. Struct
 13. Interface
-14. DDA
+14. DDD
 15. gRPC
 16. PGAdmin 4                            -> Okay
 17. Postgresql (Export & Import) 
 18. Struct wise validation 
+19. Singleton config
+20. Repository Pattern 
 
 
 
