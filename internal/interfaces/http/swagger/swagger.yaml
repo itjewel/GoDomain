@@ -1,6 +1,35 @@
 info:
   contact: {}
 paths:
+  /invoice/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new invoice
+      parameters:
+      - description: Invoice Payload
+        in: body
+        name: invoice
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Create Invoice
+      tags:
+      - Invoice
   /users:
     post:
       consumes:
