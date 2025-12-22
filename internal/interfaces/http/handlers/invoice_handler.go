@@ -56,3 +56,78 @@ func CreateInvoiceHandler(
 	}
 		
 }
+
+
+func GetAllInvoiceHandler(
+	uc *appInvoice.CreateInvoiceUseCase,
+) http.HandlerFunc {
+	
+ 
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			response.JSONResponse(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
+			return
+		}
+		defer r.Body.Close()
+
+		var req struct {
+			UserID string  `json:"user_id"`
+			Amount float64 `json:"amount"`
+		}
+
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+			return
+		}
+
+		inv, err := uc.Execute(appInvoice.CreateInvoiceCommand{
+			UserID: req.UserID,
+			Amount: req.Amount,
+		})
+
+		if err != nil {
+			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
+			return
+		}
+
+		response.JSONResponse(w, http.StatusCreated, inv)
+	}
+		
+}
+
+func GetOneInvoiceHandler(
+	uc *appInvoice.CreateInvoiceUseCase,
+) http.HandlerFunc {
+	
+ 
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			response.JSONResponse(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
+			return
+		}
+		defer r.Body.Close()
+
+		var req struct {
+			UserID string  `json:"user_id"`
+			Amount float64 `json:"amount"`
+		}
+
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+			return
+		}
+
+		inv, err := uc.Execute(appInvoice.CreateInvoiceCommand{
+			UserID: req.UserID,
+			Amount: req.Amount,
+		})
+
+		if err != nil {
+			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
+			return
+		}
+
+		response.JSONResponse(w, http.StatusCreated, inv)
+	}
+		
+}
