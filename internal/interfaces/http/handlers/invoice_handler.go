@@ -67,17 +67,12 @@ func GetAllInvoiceHandler(
 		if r.Method != http.MethodPost {
 			response.JSONResponse(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
 			return
-		}
-		
-
-		
-       invoices, err := uc.Execute()
-
+		}		
+        invoices, err := uc.Execute()
 		if err != nil {
 			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
 			return
 		}
-
 		response.JSONResponse(w, http.StatusCreated, invoices)
 	}
 		
@@ -85,8 +80,7 @@ func GetAllInvoiceHandler(
 
 func GetOneInvoiceHandler(
 	uc *appInvoice.GetInvoiceByIdUseCase,
-) http.HandlerFunc {
-	
+) http.HandlerFunc {	
  
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
@@ -99,17 +93,12 @@ func GetOneInvoiceHandler(
 			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "invoice id required"})
 			return
 		}
-		
-
-	invoice, err := uc.Execute(id)
-
-	
+	   invoice, err := uc.Execute(id)
 
 		if err != nil {
 			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
 			return
 		}
-
 		response.JSONResponse(w, http.StatusCreated, invoice)
 	}
 		

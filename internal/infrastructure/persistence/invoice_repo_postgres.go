@@ -29,8 +29,30 @@ func (r *InvoiceRepoPostgres) Save(inv *invoice.Invoice) error {
 }
 
 func (r *InvoiceRepoPostgres) FindAll() ([]*invoice.Invoice, error){
- return  nil, nil
+
+	rows, err := r.db.Query(`SELECT id, user_id, amount, status FROM tbl_invoices`)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var invoices []*invoice.Invoice
+
+	for rows.Next() {
+		inv := &invoice.Invoice{}
+		if err := rows.Scan(&inv.ID, &inv.UserID, &inv.Amount, &inv.Status); err != nil {
+			return nil, err
+		}
+		invoices = append(invoices, inv)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return invoices, nil
 }
+
 func (r *InvoiceRepoPostgres) GetByID(id string) (*invoice.Invoice, error) {
 	inv := &invoice.Invoice{}
 	row := r.db.QueryRow(`SELECT id, user_id, amount, status FROM invoices WHERE id=$1`, id)
@@ -43,3 +65,4 @@ func (r *InvoiceRepoPostgres) GetByID(id string) (*invoice.Invoice, error) {
 	}
 	return inv, nil
 }
+
