@@ -15,6 +15,8 @@ func NewInvoiceRepoPostgres(db *sql.DB) invoice.InvoiceRepository {
 	return &InvoiceRepoPostgres{db: db}
 }
 
+
+
 func (r *InvoiceRepoPostgres) Save(inv *invoice.Invoice) error {
 	query := `
 	INSERT INTO tbl_invoices ( user_id, amount, status)
@@ -26,6 +28,9 @@ func (r *InvoiceRepoPostgres) Save(inv *invoice.Invoice) error {
 	return err
 }
 
+func (r *InvoiceRepoPostgres) FindAll() ([]*invoice.Invoice, error){
+ return  nil, nil
+}
 func (r *InvoiceRepoPostgres) GetByID(id string) (*invoice.Invoice, error) {
 	inv := &invoice.Invoice{}
 	row := r.db.QueryRow(`SELECT id, user_id, amount, status FROM invoices WHERE id=$1`, id)

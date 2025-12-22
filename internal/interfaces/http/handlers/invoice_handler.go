@@ -59,7 +59,7 @@ func CreateInvoiceHandler(
 
 
 func GetAllInvoiceHandler(
-	uc *appInvoice.CreateInvoiceUseCase,
+	uc *appInvoice.GetAllInvoiceUseCase,
 ) http.HandlerFunc {
 	
  
@@ -68,35 +68,23 @@ func GetAllInvoiceHandler(
 			response.JSONResponse(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
 			return
 		}
-		defer r.Body.Close()
+		
 
-		var req struct {
-			UserID string  `json:"user_id"`
-			Amount float64 `json:"amount"`
-		}
-
-		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "invalid request body"})
-			return
-		}
-
-		inv, err := uc.Execute(appInvoice.CreateInvoiceCommand{
-			UserID: req.UserID,
-			Amount: req.Amount,
-		})
+		
+       invoices, err := uc.Execute()
 
 		if err != nil {
 			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
 			return
 		}
 
-		response.JSONResponse(w, http.StatusCreated, inv)
+		response.JSONResponse(w, http.StatusCreated, invoices)
 	}
 		
 }
 
 func GetOneInvoiceHandler(
-	uc *appInvoice.CreateInvoiceUseCase,
+	uc *appInvoice.GetInvoiceByIdUseCase,
 ) http.HandlerFunc {
 	
  
@@ -105,29 +93,24 @@ func GetOneInvoiceHandler(
 			response.JSONResponse(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
 			return
 		}
-		defer r.Body.Close()
-
-		var req struct {
-			UserID string  `json:"user_id"`
-			Amount float64 `json:"amount"`
-		}
-
-		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "invalid request body"})
+		id := r.PathValue("id")
+		
+		if id == "" {
+			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": "invoice id required"})
 			return
 		}
+		
 
-		inv, err := uc.Execute(appInvoice.CreateInvoiceCommand{
-			UserID: req.UserID,
-			Amount: req.Amount,
-		})
+	invoice, err := uc.Execute(id)
+
+	
 
 		if err != nil {
 			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
 			return
 		}
 
-		response.JSONResponse(w, http.StatusCreated, inv)
+		response.JSONResponse(w, http.StatusCreated, invoice)
 	}
 		
 }
