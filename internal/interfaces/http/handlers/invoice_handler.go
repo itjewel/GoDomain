@@ -58,24 +58,22 @@ func CreateInvoiceHandler(
 }
 
 
-func GetAllInvoiceHandler(
-	uc *appInvoice.GetAllInvoiceUseCase,
-) http.HandlerFunc {
-	
- 
+func GetAllInvoiceHandler(uc *appInvoice.GetAllInvoiceUseCase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
-			response.JSONResponse(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
-			return
-		}		
-        invoices, err := uc.Execute()
-		if err != nil {
-			response.JSONResponse(w, http.StatusBadRequest, map[string]string{"error": err.Error()})
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		response.JSONResponse(w, http.StatusCreated, invoices)
+
+		invoices, err := uc.Execute()
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(invoices)
 	}
-		
 }
 
 func GetOneInvoiceHandler(

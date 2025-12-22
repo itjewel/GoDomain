@@ -19,9 +19,8 @@ func RegisterRoutes(
 	mux.HandleFunc(
 		"POST /invoice/create",
 		handlers.CreateInvoiceHandler(c.Invoice.Create)) // POST
-	mux.HandleFunc(
-		"GET /invoices",
-		handlers.GetAllInvoiceHandler(c.Invoice.AllInvoice)) // GET
+	// GET /invoices
+	mux.HandleFunc("/invoices", handlers.GetAllInvoiceHandler(c.Invoice.AllInvoice))
 	mux.HandleFunc(
 		"GET /invoice/{id}",
 		handlers.CreateInvoiceHandler(c.Invoice.Create)) // GET
