@@ -13,17 +13,15 @@ const (
 )
 
 type Invoice struct {
-	ID     string
-	UserID string
-	Amount float64
-	Status Status
+	ID     string `json:"id"`
+	UserID string `json:"user_id"`
+	Amount float64 `json:"amount"`
+	Status Status `json:"status"`
 }
 
 // Constructor (factory)
-func NewInvoice(id, userID string, amount float64) (*Invoice, error) {
-	if id == "" {
-		return nil, errors.New("invoice id is required")
-	}
+func NewInvoice( userID string, amount float64) (*Invoice, error) {
+
 	if userID == "" {
 		return nil, errors.New("user id is required")
 	}
@@ -32,7 +30,7 @@ func NewInvoice(id, userID string, amount float64) (*Invoice, error) {
 	}
 
 	return &Invoice{
-		ID:     id,
+		// ID:     id,
 		UserID: userID,
 		Amount: amount,
 		Status: StatusPending,

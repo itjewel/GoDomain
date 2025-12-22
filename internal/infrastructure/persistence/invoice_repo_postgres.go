@@ -17,12 +17,12 @@ func NewInvoiceRepoPostgres(db *sql.DB) invoice.InvoiceRepository {
 
 func (r *InvoiceRepoPostgres) Save(inv *invoice.Invoice) error {
 	query := `
-	INSERT INTO invoices (id, user_id, amount, status)
-	VALUES ($1, $2, $3, $4)
+	INSERT INTO tbl_invoices ( user_id, amount, status)
+	VALUES ( $1, $2, $3)
 	ON CONFLICT (id) DO UPDATE
 	SET user_id=EXCLUDED.user_id, amount=EXCLUDED.amount, status=EXCLUDED.status;
 	`
-	_, err := r.db.Exec(query, inv.ID, inv.UserID, inv.Amount, inv.Status)
+	_, err := r.db.Exec(query,  inv.UserID, inv.Amount, inv.Status)
 	return err
 }
 

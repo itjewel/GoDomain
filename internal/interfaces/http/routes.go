@@ -19,4 +19,10 @@ func RegisterRoutes(
 	mux.HandleFunc(
 		"POST /invoice/create",
 		handlers.CreateInvoiceHandler(c.Invoice.Create)) // POST
+	mux.HandleFunc(
+		"GET /invoices",
+		handlers.CreateInvoiceHandler(c.Invoice.Create)) // GET
+	mux.HandleFunc(
+		"GET /invoice/{id}",
+		handlers.CreateInvoiceHandler(c.Invoice.Create)) // GET
 }

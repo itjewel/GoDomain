@@ -1,6 +1,6 @@
 #Target
 
-1. Create api generate (running)
+1. Create api generate                   -> Okay
 2. Reading API generate
 3. Delete API generate
 4. Update API generate
@@ -16,7 +16,7 @@
 14. DDD
 15. gRPC
 16. PGAdmin 4                            -> Okay
-17. Postgresql (Export & Import) 
+17. Postgresql (Export & Import)         -> Okay
 18. Struct wise validation 
 19. Singleton config
 20. Repository Pattern 

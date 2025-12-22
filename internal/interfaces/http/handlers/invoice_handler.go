@@ -23,15 +23,16 @@ import (
 func CreateInvoiceHandler(
 	uc *appInvoice.CreateInvoiceUseCase,
 ) http.HandlerFunc {
-
+	
+ 
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			response.JSONResponse(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
 			return
 		}
+		defer r.Body.Close()
 
 		var req struct {
-			ID     string  `json:"id"`
 			UserID string  `json:"user_id"`
 			Amount float64 `json:"amount"`
 		}
@@ -42,7 +43,6 @@ func CreateInvoiceHandler(
 		}
 
 		inv, err := uc.Execute(appInvoice.CreateInvoiceCommand{
-			ID:     req.ID,
 			UserID: req.UserID,
 			Amount: req.Amount,
 		})
@@ -54,4 +54,5 @@ func CreateInvoiceHandler(
 
 		response.JSONResponse(w, http.StatusCreated, inv)
 	}
+		
 }

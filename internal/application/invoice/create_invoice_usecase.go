@@ -30,10 +30,15 @@ func (uc *CreateInvoiceUseCase) Execute(
 		return nil, errors.New("amount must be greater than 0")
 	}
 
-inv, err := domain.NewInvoice(cmd.ID, cmd.UserID, cmd.Amount)
-if err != nil {
-	return nil, err
-}
+	inv, err := domain.NewInvoice( cmd.UserID, cmd.Amount)
+	if err != nil {
+		return nil, err
+	}
+
+	// database insert here
+	if err := uc.repo.Save(inv); err !=nil{
+		return nil, err
+	}
 
 
 	return inv, nil
