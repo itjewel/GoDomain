@@ -13,7 +13,9 @@ Swagger UI: http://localhost:7000/swagger/index.html
 
 ## Swagger Generate
 
+```bash
 swag init -g cmd/server/main.go -o internal/interfaces/http/swagger
+```
 
 ---
 
