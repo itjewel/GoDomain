@@ -13,6 +13,7 @@ type Container struct {
 	Invoice struct {
 		Create *appInvoice.CreateInvoiceUseCase
 		AllInvoice *appInvoice.GetAllInvoiceUseCase
+		OneInvoice *appInvoice.GetInvoiceByIdUseCase
 		Pay    *appInvoice.PayInvoiceUseCase
 	}
 }

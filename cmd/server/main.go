@@ -29,6 +29,7 @@ func main() {
 	userService := appUser.NewUserService(userRepo)
 	createInvoiceUC := appInvoice.NewCreateInvoiceUseCase(invoiceRepo)
 	getAllInvoiceUc := appInvoice.NewGetAllInvoiceUseCase(invoiceRepo)
+	getOneInvoiceUc := appInvoice.NewGetINvoiceByIdUseCase(invoiceRepo)
 	// payInvoiceUC := appInvoice.NewPayInvoiceUseCase(invoiceRepo)
 
 	// 4️⃣ Application container
@@ -36,6 +37,7 @@ func main() {
 	container.User.Service = userService
 	container.Invoice.Create = createInvoiceUC
 	container.Invoice.AllInvoice = getAllInvoiceUc
+	container.Invoice.OneInvoice = getOneInvoiceUc
 	// container.Invoice.Pay = payInvoiceUC
 
 	// 5️⃣ HTTP Router

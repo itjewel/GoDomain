@@ -1,33 +1,75 @@
+definitions:
+  invoice.Invoice:
+    properties:
+      amount:
+        type: number
+      id:
+        type: string
+      status:
+        $ref: '#/definitions/invoice.Status'
+      user_id:
+        type: string
+    type: object
+  invoice.Status:
+    enum:
+    - pending
+    - paid
+    type: string
+    x-enum-varnames:
+    - StatusPending
+    - StatusPaid
+  response.ErrorResponse:
+    properties:
+      error:
+        example: invalid request
+        type: string
+    type: object
 info:
   contact: {}
 paths:
-  /invoice/create:
-    post:
+  /invoices:
+    get:
       consumes:
       - application/json
-      description: Create a new invoice
-      parameters:
-      - description: Invoice Payload
-        in: body
-        name: invoice
-        required: true
-        schema:
-          type: object
+      description: show all invoice
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             additionalProperties: true
             type: object
-        "400":
-          description: Bad Request
+        "500":
+          description: Internal Server Error
           schema:
             additionalProperties:
               type: string
             type: object
-      summary: Create Invoice
+      summary: All Invoice
+      tags:
+      - Invoice
+  /invoices/{id}:
+    get:
+      description: Retrieve a single invoice by its ID
+      parameters:
+      - description: Invoice ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/invoice.Invoice'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/response.ErrorResponse'
+      summary: Get invoice by ID
       tags:
       - Invoice
   /users:

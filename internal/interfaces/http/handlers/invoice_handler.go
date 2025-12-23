@@ -16,10 +16,11 @@ import (
 // @Tags Invoice
 // @Accept json
 // @Produce json
-// @Param invoice body object true "Invoice Payload"
-// @Success 201 {object} map[string]interface{}
-// @Failure 400 {object} map[string]string
+// @Param invoice body CreateInvoiceRequest true "Invoice Payload"
+// @Success 201 {object} invoice.Invoice
+// @Failure 400 {object} response.InvoiceResponse
 // @Router /invoice/create [post]
+
 func CreateInvoiceHandler(
 	uc *appInvoice.CreateInvoiceUseCase,
 ) http.HandlerFunc {
@@ -58,6 +59,15 @@ func CreateInvoiceHandler(
 }
 
 
+// GetAllInvoiceHandler godoc
+// @Summary All Invoice
+// @Description show all invoice
+// @Tags Invoice
+// @Accept json
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Failure 500 {object} map[string]string
+// @Router /invoices [get]
 func GetAllInvoiceHandler(uc *appInvoice.GetAllInvoiceUseCase) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodGet {
@@ -76,12 +86,22 @@ func GetAllInvoiceHandler(uc *appInvoice.GetAllInvoiceUseCase) http.HandlerFunc 
 	}
 }
 
+
+// GetOneInvoiceHandler godoc
+// @Summary Get invoice by ID
+// @Description Retrieve a single invoice by its ID
+// @Tags Invoice
+// @Produce json
+// @Param id path string true "Invoice ID"
+// @Success 200 {object} invoice.Invoice
+// @Failure 400 {object} response.InvoiceResponse
+// @Router /invoices/{id} [get]
 func GetOneInvoiceHandler(
 	uc *appInvoice.GetInvoiceByIdUseCase,
 ) http.HandlerFunc {	
  
 	return func(w http.ResponseWriter, r *http.Request) {
-		if r.Method != http.MethodPost {
+		if r.Method != http.MethodGet {
 			response.JSONResponse(w, http.StatusMethodNotAllowed, map[string]string{"error": "method not allowed"})
 			return
 		}

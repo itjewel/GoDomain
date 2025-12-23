@@ -15,9 +15,7 @@ func NewGetINvoiceByIdUseCase( repo domain.InvoiceRepository) *GetInvoiceByIdUse
 
 }
 
-func (uc *GetInvoiceByIdUseCase) Execute(
-	id string,
-)(*domain.Invoice, error){
+func (uc *GetInvoiceByIdUseCase) Execute(id string)(*domain.Invoice, error){
 
 	if(id == ""){
 		return nil, errors.New("Invoice id is required")

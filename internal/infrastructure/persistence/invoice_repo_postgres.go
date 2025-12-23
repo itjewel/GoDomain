@@ -55,7 +55,7 @@ func (r *InvoiceRepoPostgres) FindAll() ([]*invoice.Invoice, error){
 
 func (r *InvoiceRepoPostgres) GetByID(id string) (*invoice.Invoice, error) {
 	inv := &invoice.Invoice{}
-	row := r.db.QueryRow(`SELECT id, user_id, amount, status FROM invoices WHERE id=$1`, id)
+	row := r.db.QueryRow(`SELECT id, user_id, amount, status FROM tbl_invoices WHERE id=$1`, id)
 	err := row.Scan(&inv.ID, &inv.UserID, &inv.Amount, &inv.Status)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
